@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Operaciones</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+<section class="get-in-touch">
+   <h1 class="title">Operaciones</h1>
+
+      <div class="form-field col-lg-6">
+         <input id="num1" class="input-text js-input" type="text">
+         <label class="label" for="name">Numero 1</label>
+      </div>
+      <div class="form-field col-lg-6 ">
+         <input id="num2" class="input-text js-input" type="text">
+         <label class="label" for="email">Numero 2</label>
+      </div>
+      <div class="form-field col-lg-12">
+         <input id="resultado" class="input-text js-input" type="text">
+         <label class="label" for="message">Resultado</label>
+      </div>
+      <div class="form-field col-lg-12">
+         <input id="submit" class="submit-btn" type="button" value="Send">
+      </div>
+   
+</section>
+{{ room_name|json_script:"room-name" }}
+
+ <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/operacion/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#resultado').value += (data.message + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#submit').onclick = function(e) {
+            const messageInputDom1 = document.querySelector('#num1');
+            const messageInputDom2 = document.querySelector('#num2');
+            const num1 = messageInputDom1.value;
+            const num2 = messageInputDom2.value;
+            chatSocket.send(JSON.stringify({
+                'operation': roomName,
+                'num1': num1,
+                'num2': num2,
+            }));
+            messageInputDom1.value = '';
+            messageInputDom2.value = '';
+        };
+    </script>
+</body>
+</html>

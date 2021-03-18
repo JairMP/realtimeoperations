@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Operaciones</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+
+<section class="get-in-touch">
+   <h1 class="title">Selecciona la Operacion</h1>
+   
+      <div class="form-field col-lg-12">
+         <input id="operacion" class="input-text js-input" type="text" required>
+         <label class="label" for="message">Operacion</label>
+      </div>
+      <div class="form-field col-lg-12">
+         <input class="submit-btn" id="submit" type="button" value="Send">
+      </div>
+   </form>
+</section>
+
+ <script>
+        document.querySelector('#operacion').focus();
+        document.querySelector('#operacion').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#submit').click();
+            }
+        };
+
+        document.querySelector('#submit').onclick = function(e) {
+            var roomName = document.querySelector('#operacion').value;
+            window.location.pathname = '/operacion/' + roomName + '/';
+        };
+    </script>
+</body>
+</html>
